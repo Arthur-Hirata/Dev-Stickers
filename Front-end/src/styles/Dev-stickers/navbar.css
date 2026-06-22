@@ -1,0 +1,17 @@
+nav{
+    width: 1500px;
+    margin-top: 10px;
+    height: 70px;
+    background-color: var(--card);
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.name{
+    font-size: 30px;
+    font-weight: bold;
+    position: start;
+}

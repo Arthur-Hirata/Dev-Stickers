@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('navbar.css');
+@import url('card.css');
+:root{
+    --bg: #0F172A;
+    --header: #111827;
+    --card: #1F2937;
+    --owned: #1E3A5F;
+    --owned-border: #3B82F6;
+    --missing: #374151;
+    --missing-border: #64748B;
+    --missing-border2: #60A5FA;
+    --add: #22C55E;
+    --duplicate: #F59E0B;
+    --remove: #EF4444;
+    --text: #F9FAFB;
+}
+html{
+scrollbar-gutter: stable;}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+    font-family: Poppins, sans-serif;
+    color: var(--text);
+}
+
+button{
+    cursor: pointer;
+    transition: transform;
+    user-select: none;
+}
+button:hover{
+    transform: scale(1.05);
+}
+
+
+
