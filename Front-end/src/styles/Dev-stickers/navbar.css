@@ -13,9 +13,9 @@
     --text: #F9FAFB;
 }
 nav{
-    width: 1500px;
+    width: 1300px;
     margin-top: 10px;
-    height: 70px;
+    height: 80px;
     background-color: var(--card);
     border: none;
     border-radius: 12px;
@@ -45,4 +45,15 @@ nav{
     font-weight: bold;
     font-size: 21px;
     color:var(--duplicate);
+}
+.login{ 
+    margin-left: 130px;
+    width: 120px;
+    height: 30px;
+    border-radius: 12px;
+    background-color: var(--duplicate);
+    border: none;
+    color: var(--text);
+    font-size: 21px;
+    font-weight: bold;
 }
