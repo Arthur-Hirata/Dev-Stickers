@@ -1,3 +1,17 @@
+:root{
+    --bg: #0F172A;
+    --header: #111827;
+    --card: #1F2937;
+    --owned: #1E3A5F;
+    --owned-border: #3B82F6;
+    --missing: #374151;
+    --missing-border: #64748B;
+    --missing-border2: #60A5FA;
+    --add: #22C55E;
+    --duplicate: #F59E0B;
+    --remove: #EF4444;
+    --text: #F9FAFB;
+}
 .card-test{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
