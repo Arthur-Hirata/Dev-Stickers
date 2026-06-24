@@ -35,7 +35,7 @@ nav{
     margin-left: 12px;
 }
 .nav-links{
-    margin-left: 240px;
+    margin-left: 110px;
     display: flex;
     flex-direction: row;
     gap: 80px;
@@ -44,14 +44,18 @@ nav{
     text-decoration: none;
     font-weight: bold;
     font-size: 21px;
-    color:var(--duplicate);
+    color:var(--text);
+    transition: transform 0.3ms ease-in-out;
+}
+#links{
+    transform: scale(1.02);
 }
 .login{ 
-    margin-left: 130px;
+    margin-left: 240px;
     width: 120px;
     height: 30px;
     border-radius: 12px;
-    background-color: var(--duplicate);
+    background-color: var(--owned-border);
     border: none;
     color: var(--text);
     font-size: 21px;
