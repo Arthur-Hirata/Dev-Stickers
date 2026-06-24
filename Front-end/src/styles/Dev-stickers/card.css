@@ -62,7 +62,7 @@
     transition: all .2s ease;
 }
 .missing{
-    background-color: var(--missing);
+    background-color: var(--card);
     width: 270px;
     height: 400px;
     border-radius: 20px;
