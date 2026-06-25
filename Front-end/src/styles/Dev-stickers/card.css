@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-top: 200px;
+    margin-top: 1200px;
 }
 .card{
     background: linear-gradient(

@@ -2,6 +2,7 @@
 @import url('navbar.css');
 @import url('card.css');
 @import url('como-funciona.css');
+@import url('album.css');
 :root{
     --bg: #0F172A;
     --header: #111827;

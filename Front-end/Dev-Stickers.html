@@ -14,7 +14,7 @@
         <h3 class="name">Dev Stickers</h3>
         <div class="nav-links">
             <a href="#como-funciona" id="links">Como Funciona?</a>
-            <a href="" id="links">Álbum</a>
+            <a href="#container-album" id="links">Álbum</a>
             <a href="" id="links">Repetidas</a>
         </div>
         <div class="log">
@@ -22,14 +22,43 @@
         </div>
     </nav>
     <div id="como-funciona">
-        <h1 class="explain">Para marcar um figurinha você deve apertar nela, caso dê certo ela mudara de cor!</h1>
-        <div class="missing" id="explain-test">
-            <div class="card-number">BRA 20</div>
+        <div class="container-explain">
+            <div class="explain-content">
+                <span class="section-tag">Como funciona</span>
+                <h2>Marque figurinhas e acompanhe seu álbum em tempo real</h2>
+                <p class="explain">Para marcar uma figurinha, basta clicar nela. Se a ação for concluída, a peça muda de cor e passa a fazer parte do seu álbum.</p>
+                <ul class="steps-list">
+                    <li><i class="fa-solid fa-circle-check"></i> Clique para marcar</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Veja seu progresso</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Organize as repetidas</li>
+                </ul>
+            </div>
         </div>
-
-
-
-
+        <div class="preview-card">
+            <span class="preview-badge">Exemplo</span>
+            <div class="missing" id="explain-test">
+                <div class="card-number">BRA 20</div>
+            </div>
+            <span class="preview-status">Figurinha marcada</span>
+        </div>
+    </div>
+    <div id="container-album">
+        <details class="grupo-container" name="album">
+            <summary class="grupo-titulo">Complementares</summary>
+            <ul class="lista-paises">
+                <li><button class="pais"><img class="imagem-pais" src=""><span class="nome-pais">FWC</span></button></li>
+                <li><button class="pais"><img src="" alt="" class="imagem-pais"><span class="nome-pais">Coca-Cola</span></button></li>
+            </ul>
+        </details>
+        <details class="grupo-container" name="album">
+            <summary class="grupo-titulo">Grupo A</summary>
+            <ul class="lista-paises">
+                <li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnm5HLbREuXMvOzMXWobYgHfLFpAi3v1J2b1d4SroLQ&s" class="imagem-pais"><span class="nome-pais">México</span></button></li>
+                <li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4kvBDum_l0NSP1v5PX-PHMAaBuUU7e78_ol3kiT1dNg&s=10" class="imagem-pais"><span class="nome-pais">Coreia do Sul</span></button></li>
+                <li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIbiPM0QYxuYXw91OPQEkCCZDoBJ9zyUbFZ-HZWHbD7w&s=10" alt="" class="imagem-pais"><span class="nome-pais">Tchéquia</span></button></li>
+                <li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYwiMwQuQBHif3h3Jdag1OyRGiVjIFmZkTuCSZ537h3A&s=10" alt="" class="imagem-pais"> <span class="nome-pais">África do Sul</span></button></li>
+            </ul>
+        </details>
     </div>
     <div class="card-test">
         <div class="card">
