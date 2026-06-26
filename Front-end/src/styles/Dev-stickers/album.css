@@ -12,53 +12,45 @@
     --remove: #EF4444;
     --text: #F9FAFB;
 }
-#container-album{
-    margin-top: 70px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    align-items: start;
-}
-.grupo-container{
-    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
-    width: 250px;
-    height: auto;
-    border-radius: 12px;
-    margin-left: 30px;
-}
-.grupo-titulo{
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-}
-.lista-paises{
-    list-style: none;
+#album{
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
-}
-.grupo-container button:hover{
-    transform: scale(1.0);
-}
-.pais{
-    background-color: transparent;
-    border: none;
-    color: white;
-    font-size:20px;
+    justify-content: center;
     align-items: center;
-    display: flex;
+    padding-left: 0px;
 }
-.imagem-pais{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 1px solid var(--duplicate);
-    margin-left: -30px;
-    margin-right:30px ;
+.container-span-tittle{
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.18);
+    color: #dbeafe;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
-.nome-pais{
+.nome-selecao{
+    font-size: 30px;
     font-weight: bolder;
+    text-align: center;
 }
-.nome-pais:hover{
-    transform: scale(1.02);
-}
+.container-selecao{
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    width: 107%;
+    height: 1000px;
+    border-radius: 12px;
+    margin-top: 30px;
 
+}
+.selecao{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 30px;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+.selecao .card{
+    width: 230px;
+    height: 350px;
+}

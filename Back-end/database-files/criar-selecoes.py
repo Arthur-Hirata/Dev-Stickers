@@ -15,7 +15,6 @@ grupo_A = [
     ('Tchéquia', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIbiPM0QYxuYXw91OPQEkCCZDoBJ9zyUbFZ-HZWHbD7w&s=10', 'Grupo A'),
     ('África do Sul', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYwiMwQuQBHif3h3Jdag1OyRGiVjIFmZkTuCSZ537h3A&s=10', 'Grupo A')
 ]
-cursor.executemany("INSERT INTO selecoes (selecao, url_bandeira, grupo) VALUES (?,?,?)", grupo_A)
-
+#cursor.executemany("INSERT INTO selecoes (selecao, url_bandeira, grupo) VALUES (?,?,?)", grupo_A)
 conexao.commit()
 conexao.close()

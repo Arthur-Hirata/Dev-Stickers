@@ -2,6 +2,7 @@
 @import url('navbar.css');
 @import url('card.css');
 @import url('como-funciona.css');
+@import url('grupos.css');
 @import url('album.css');
 :root{
     --bg: #0F172A;
@@ -37,6 +38,21 @@ button{
 button:hover{
     transform: scale(1.05);
 }
+.container-span-title{
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(59, 130, 246, 0.18);
+    color: #dbeafe;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.span-tittle{
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+}
+
 
 
 
