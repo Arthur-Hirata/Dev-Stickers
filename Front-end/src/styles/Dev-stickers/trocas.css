@@ -1,0 +1,88 @@
+:root{
+    --bg: #0F172A;
+    --header: #111827;
+    --card: #1F2937;
+    --owned: #1E3A5F;
+    --owned-border: #3B82F6;
+    --missing: #374151;
+    --missing-border: #64748B;
+    --missing-border2: #60A5FA;
+    --add: #22C55E;
+    --duplicate: #F59E0B;
+    --remove: #EF4444;
+    --text: #F9FAFB;
+}
+#trocas{
+    margin-top: 50px;
+}
+.trocas{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top:20px;
+    padding: 48px;
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
+    width: 1000px;
+    min-height: 400px;
+    border-radius: 24px;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    box-shadow: 0 20px 45px rgba(2, 8, 23, 0.35);
+}
+.container-explicacao-trocas{
+    display: flex;
+    flex-direction: column;
+}
+.container-explicacao-trocas h2{
+    margin: 0;
+    margin-top: 30px;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #f8fafc;
+    width: 450px;    
+}
+.explain-trocas{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.7;
+    text-align: left;
+    color: #cbd5e1;
+    font-weight: 400;
+    margin-top: 30px;
+    width: 450px;
+}
+.container-trocas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 200px;
+    gap: 90px;
+}
+.trocas-tittle{
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+}
+.fig-repetidas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.fig-faltantes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-copiar{
+    width: 190px;
+    height: 50px;
+    margin-top: 70px;
+    border: none;
+    border-radius: 50px;
+    background: var(--duplicate);
+    color: var(--text);
+    font-weight: bold;
+    font-size: 17px;
+}

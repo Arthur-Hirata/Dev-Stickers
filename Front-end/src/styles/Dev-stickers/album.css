@@ -41,7 +41,7 @@
     height: 1000px;
     border-radius: 12px;
     margin-top: 30px;
-
+    overflow-y: auto;
 }
 .selecao{
     display: grid;
@@ -49,6 +49,7 @@
     gap: 30px;
     margin-top: 30px;
     margin-left: 20px;
+    
 }
 .selecao .card{
     width: 230px;
