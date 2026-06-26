@@ -1,6 +1,7 @@
 
 window.onload = function(){
     getGrous();
+    getStickers();
 }
 
 function getGrous(){
@@ -27,6 +28,7 @@ function getGrous(){
                     spanNome.textContent = selecao.pais
                     btnpais.appendChild(imgPais)
                     btnpais.appendChild(spanNome)
+                    btnpais.onclick = () => getStickers()
                     li.appendChild(btnpais)
 
                     listaGrupo.appendChild(li)
@@ -36,6 +38,39 @@ function getGrous(){
         })
     })
 }
+function getStickers(){
+    const selecaoBuscada = document.querySelector(".nome-selecao").textContent
+    fetch('http://127.0.0.1:5000/getStickers',{
+        method : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            selecao : selecaoBuscada
+        })
+    } )
+    .then(response=> response.json())
+    .then(data=>{
+        if(data.mensagem = "sucess"){
+            const figurinhas = data.dados
+            figurinhas.forEach(figurinha =>{
+                console.log(figurinha.id)
+                console.log(figurinha.nome)
+
+            })
+
+
+        } else {
+            console.log("Erro no banco de dados")
+        }
+    }).catch(err => console.error("Erro no fetch:", err));
+}
+
+
+
+
+
+
+
+
 /*
 
 <li><button class="pais"><img class="imagem-pais" src=""><span class="nome-pais">FWC</span></button></li>
