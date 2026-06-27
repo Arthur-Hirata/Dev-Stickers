@@ -1,4 +1,5 @@
-
+const selecaoNoalbum = document.querySelector('.nome-selecao')
+const album = document.querySelector('.selecao')
 window.onload = function(){
     getGrous();
     getStickers();
@@ -18,6 +19,7 @@ function getGrous(){
             selecoes.forEach(selecao=>{
                 if (selecao.grupo === Nomegrupo){
                     const li = document.createElement("li")
+                    li.className='div-pais'
                     const btnpais = document.createElement("button")
                     btnpais.className = "pais"
                     const imgPais = document.createElement('img')
@@ -28,7 +30,11 @@ function getGrous(){
                     spanNome.textContent = selecao.pais
                     btnpais.appendChild(imgPais)
                     btnpais.appendChild(spanNome)
-                    btnpais.onclick = () => getStickers()
+                    btnpais.addEventListener('click', function(){
+                        album.innerHTML=''
+                        selecaoNoalbum.textContent = selecao.pais
+                        getStickers();
+                    })
                     li.appendChild(btnpais)
 
                     listaGrupo.appendChild(li)
@@ -39,7 +45,7 @@ function getGrous(){
     })
 }
 function getStickers(){
-    const selecaoBuscada = document.querySelector(".nome-selecao").textContent
+    const selecaoBuscada = selecaoNoalbum.textContent
     fetch('http://127.0.0.1:5000/getStickers',{
         method : 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,9 +58,29 @@ function getStickers(){
         if(data.mensagem = "sucess"){
             const figurinhas = data.dados
             figurinhas.forEach(figurinha =>{
-                console.log(figurinha.id)
-                console.log(figurinha.nome)
-
+                const li = document.createElement('div')
+                li.dataset.id = figurinha.id
+                const divNomeFigurinha = document.createElement('div')
+                divNomeFigurinha.className ='card-number'
+                divNomeFigurinha.textContent = figurinha.nome
+                li.className='card'
+                const controls= document.createElement('div')
+                controls.className = 'controls'
+                const btnSomar = document.createElement('button')
+                btnSomar.className ='add'
+                btnSomar.textContent ='📦'
+                const spanDuplicate = document.createElement('span')
+                spanDuplicate.className = 'duplicate'
+                spanDuplicate.textContent = '1'
+                const btnRemove = document.createElement('button')
+                btnRemove.className = 'remove'
+                btnRemove.textContent ='-'
+                controls.appendChild(btnRemove)
+                controls.appendChild(spanDuplicate)
+                controls.appendChild(btnSomar)
+                li.appendChild(divNomeFigurinha)
+                li.appendChild(controls)
+                album.appendChild(li)
             })
 
 
@@ -64,20 +90,3 @@ function getStickers(){
     }).catch(err => console.error("Erro no fetch:", err));
 }
 
-
-
-
-
-
-
-
-/*
-
-<li><button class="pais"><img class="imagem-pais" src=""><span class="nome-pais">FWC</span></button></li>
-<li><button class="pais"><img src="" alt="" class="imagem-pais"><span class="nome-pais">Coca-Cola</span></button></li>
-<li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnm5HLbREuXMvOzMXWobYgHfLFpAi3v1J2b1d4SroLQ&s" class="imagem-pais"><span class="nome-pais">México</span></button></li>
-<li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4kvBDum_l0NSP1v5PX-PHMAaBuUU7e78_ol3kiT1dNg&s=10" class="imagem-pais"><span class="nome-pais">Coreia do Sul</span></button></li>                <li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIbiPM0QYxuYXw91OPQEkCCZDoBJ9zyUbFZ-HZWHbD7w&s=10" alt="" class="imagem-pais"><span class="nome-pais">Tchéquia</span></button></li>
-<li><button class="pais"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYwiMwQuQBHif3h3Jdag1OyRGiVjIFmZkTuCSZ537h3A&s=10" alt="" class="imagem-pais"> <span class="nome-pais">África do Sul</span></button></li>
-
-
-*/
