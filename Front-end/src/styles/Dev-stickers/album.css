@@ -20,7 +20,7 @@
     align-items: center;
     padding-left: 0px;
 }
-.container-progress-bar{
+.div-progress-bar{
     margin-top: 70px;
     display: flex;
     flex-direction: column;
@@ -28,7 +28,14 @@
     align-items: center;
     
 }
-.progress-container{
+.container-progress{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.progress-bar-container{
     width: 900px;              
     max-width: 100%;           
     background-color: var(--card); 
@@ -49,6 +56,9 @@
     font-weight: bolder;
     text-align: center;
     color: var(--duplicate);
+}
+#stickers-count{
+    font-size: 20px;
 }
 .container-span-tittle{
     padding: 6px 12px;

@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root{
+    --bg: #0F172A;
+    --header: #111827;
+    --card: #1F2937;
+    --owned: #1E3A5F;
+    --owned-border: #3B82F6;
+    --missing: #374151;
+    --missing-border: #64748B;
+    --missing-border2: #60A5FA;
+    --add: #22C55E;
+    --duplicate: #F59E0B;
+    --remove: #EF4444;
+    --text: #F9FAFB;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg);
+    font-family: Poppins, sans-serif;
+    color: var(--text);
+    text-align: center;
+    min-height: 100vh;
+}
+
+button{
+    cursor: pointer;
+    transition: transform;
+    user-select: none;
+}
+button:hover{
+    transform: scale(1.05);
+}
+.container-login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
+    width: 700px;
+    height: 500px;
+    border-radius: 12px;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    box-shadow: 0 20px 45px rgba(2, 8, 23, 0.35);
+}
+.tittle{
+    margin-top: 10px;
+}
+.user-action{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    margin-left: 0px;
+    margin-top: 30px;
+    gap: 40px;
+}
+.container-input{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+.input-request{
+    font-weight: bold;
+    font-size: 21px;
+}
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 450px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: var(--text);
+    font-family: Poppins;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: 1px solid var(--text);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+}
+i{
+    position: absolute;
+    margin-top: 13px;
+    margin-left: -30px;
+}
+a{
+    text-decoration: none;
+}
+.container-remember{
+    display: flex;
+    flex-direction: row;
+    margin-top: -16px;
+    gap: 20px;
+}
+.remember-label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+.remember{
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(96, 165, 250, 0.45);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+.remember:hover{
+    border-color: var(--duplicate);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.18);
+    transform: translateY(-1px);
+}
+.remember:checked{
+    background: linear-gradient(135deg,var(--duplicate));
+    border-color: transparent;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+.remember:checked::after{
+    content: "✓";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+}
+.remember-text{
+    color: rgba(249, 250, 251, 0.9);
+    transition: color 0.2s ease;
+}
+.redrect{
+    margin-top: -20px;
+}
+.create-acc{
+    color: var(--missing-border2);
+    transition: transform 0.3s ease-in-out;
+    font-size: 15px;
+}
+.login{
+    width: 200px;
+    height: 35px;
+    border-radius: 12px;
+    background-color: var(--duplicate);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    font-size: 25px;
+    margin-top: 40px;
+}
