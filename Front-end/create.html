@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="/Front-end/src/styles/create/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Criar Conta - Dev Stickers</title>
+</head>
+<body>
+    <div class="container-create">
+        <h1 class="tittle">Criar Conta</h1>
+        <div class="user-action">
+            <div class="container-input">
+                <span class="input-request">Nome</span>
+                <span class="input-erro" id="name-error">Esse campo é obrigatório!</span>
+                <div class="sub-container-input">
+                    <input type="text" placeholder="Informe seu nome" id="user-name">
+                </div>
+            </div>
+            <div class="container-input">
+                <span class="input-request">Email</span>
+                <span class="input-erro" id="email-error">insira um e-mail válido</span>
+                <div class="sub-container-input">
+                    <input type="text" placeholder="Digite seu Email" id="email">
+                </div>
+            </div>
+            <div class="container-input">
+                <span class="input-request">Senha</span>
+                <span class="input-erro" id="password-error">Sua senha deve ter ao menso 8 caracteres</span>
+                <div class="sub-container-input">
+                    <input type="password" placeholder="Crie uma senha sua senha" id="password">
+                    <i class="fas fa-eye" id="eye1"></i>
+                </div>
+            </div>
+            <div class="container-input">
+                <span class="input-request">Confirme sua senha</span>
+                <span class="input-erro" id="confirm-error">A confirmação deve ser igual a senha colocada</span>
+                <div class="sub-container-input">
+                    <input type="password" placeholder="Confirme sua senha" id="confirmar-senha">
+                    <i class="fas fa-eye" id="eye2"></i>
+                </div>
+            </div>
+        </div>
+        <button class="criar" onclick="criarConta()" >Criar</button>
+    </div>
+</body>
+<script src="/Front-end/src/js/create/create.js"></script>
+</html>
