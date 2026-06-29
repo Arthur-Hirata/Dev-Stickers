@@ -120,3 +120,45 @@ i{
     color: var(--remove);
     display: none;
 }
+.modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+}
+.modal-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+    height: 300px;
+    background-color: var(--card);
+    border-radius: 30px;
+    
+}
+.modal-tittle{
+    margin-top: -30px;
+    font-size: 30px;
+}
+.modal-text{
+    margin-top: 30px;
+}
+.modal-btn{
+    width: 200px;
+    height: 30px;
+    color: white;
+    background-color: var(--add);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    margin-top: 30px;    
+}
