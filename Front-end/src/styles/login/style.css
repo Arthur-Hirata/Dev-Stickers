@@ -173,3 +173,10 @@ a{
     font-size: 25px;
     margin-top: 40px;
 }
+.input-erro{
+    font-size: 10px;
+    position: absolute;
+    margin-top: 25px;
+    color: var(--remove);
+    display: none;
+}

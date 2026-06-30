@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 import jwt
 import datetime
 from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 app= Flask(__name__)
 CORS(app)
 load_dotenv(dotenv_path='.env')
@@ -78,6 +79,50 @@ def criarUser():
     except sqlite3.Error as e:
         return jsonify({"mensagem": "Erro no banco de dados"}), 500
     return jsonify({"mensagem" : "Usuário adicionado com sucesso", "JWT_token": token_JWT})
+
+@app.route('/loginUser', methods=['POST'])
+def loginUser():
+    dados = request.json
+    email = dados.get('email')
+    senha = dados.get('senha')
+    remember = dados.get('remember')
+    try:
+        with sqlite3.connect("banco-users.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT id, senha, nome FROM users WHERE email=?", (email,))
+            result = cursor.fetchone()
+        if result is None:
+            return jsonify({"mensagem" : "Usuário não encontrado"}), 404
+        user_id, user_password, user_name= result
+
+        if check_password_hash(user_password, senha):
+            horas_expiracao = 24 if remember else 1
+            tempo_expiracao = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=horas_expiracao)
+
+            payload={
+                'sub' : user_id,
+                'nome' : user_name,
+                'admin' : False,
+                'exp' : tempo_expiracao
+            }
+            token_JWT = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+            return jsonify({
+                'mensagem' : 'Login bem-sucedido',
+                'token_JWT' : token_JWT
+            }), 200
+
+            
+        else:
+            return jsonify({"mensagem": "Senha incorreta"}), 401
+
+
+    except sqlite3.Error as e:
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+        
+        
+
+
+
 
 
 
