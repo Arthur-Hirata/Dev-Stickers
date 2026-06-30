@@ -1,10 +1,34 @@
 const selecaoNoalbum = document.querySelector('.nome-selecao')
 const album = document.querySelector('.selecao')
+const userToken = localStorage.getItem("JWT_token")
+
 window.onload = function(){
     getGrous();
     getStickers();
+    getIdentity();
 }
+function getIdentity(){
+    if (userToken){
+        fetch('http://127.0.0.1:5000/verifyIdentity', {
+            method : 'GET',
+            headers: {
+                'Authorization': `Bearer ${userToken}`
+            }
+        })
+        .then(response => response.json())
+        .then(data =>{
+            if (data.mensagem === "Token válido"){
+                const btnLogar = document.querySelector(".login")
+                btnLogar.textContent = data.nome
+            }
+            else {
+                console.log("token_invalido")
+            }
+        })
+    }else{
 
+    }
+}
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{
         method : 'POST'

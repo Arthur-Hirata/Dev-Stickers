@@ -12,6 +12,23 @@ CORS(app)
 load_dotenv(dotenv_path='.env')
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+@app.route('/verifyIdentity', methods=['GET'])
+def verificarUsuario():
+    auth_header = request.headers.get('Authorization')
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
+
+        return jsonify({
+            "mensagem" : "Token válido",
+            "nome" : payload['nome']
+        }), 200
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"mensagem" : "Token expirado!"})
+    
+
+
+
 
 @app.route('/getGroups', methods=['POST'])
 def pegarGrupos():
@@ -71,7 +88,7 @@ def criarUser():
         payload ={
             'sub' : user_id,
             'nome' : nome,
-            'admin' : False,
+            'admin' : "user",
             'exp' : datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=10)
         }
         token_JWT = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
@@ -89,11 +106,11 @@ def loginUser():
     try:
         with sqlite3.connect("banco-users.db") as conexao:
             cursor = conexao.cursor()
-            cursor.execute("SELECT id, senha, nome FROM users WHERE email=?", (email,))
+            cursor.execute("SELECT id, senha, nome, role FROM users WHERE email=?", (email,))
             result = cursor.fetchone()
         if result is None:
             return jsonify({"mensagem" : "Usuário não encontrado"}), 404
-        user_id, user_password, user_name= result
+        user_id, user_password, user_name, user_role= result
 
         if check_password_hash(user_password, senha):
             horas_expiracao = 24 if remember else 1
@@ -102,13 +119,13 @@ def loginUser():
             payload={
                 'sub' : user_id,
                 'nome' : user_name,
-                'admin' : False,
+                'admin' : user_role,
                 'exp' : tempo_expiracao
             }
             token_JWT = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
             return jsonify({
                 'mensagem' : 'Login bem-sucedido',
-                'token_JWT' : token_JWT
+                'JWT_token' : token_JWT
             }), 200
 
             

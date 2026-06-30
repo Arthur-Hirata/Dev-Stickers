@@ -6,7 +6,8 @@ cursor.execute('''
                id INTEGER PRIMARY KEY AUTOINCREMENT,
                email TEXT NOT NULL,
                nome TEXT NOT NULL,
-               senha TEXT NOT NULL, 
+               senha TEXT NOT NULL,
+               role TEXT NOT NULL DEFAULT 'user', 
                figurinhas TEXT       
                )
 ''')

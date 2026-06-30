@@ -17,7 +17,6 @@
                 <span class="input-erro" id="email-error">Esse campo é obrigatório!</span>
                 <div class="sub-container-input">
                     <input type="text" placeholder="Digite seu e-mail" id="email">
-                    <i class="fas fa-eye" id="eye1"></i>
                 </div>
             </div>
             <div class="container-input">
@@ -25,7 +24,7 @@
                 <span class="input-erro" id="password-error"></span>
                 <div class="sub-container-input">
                     <input type="password" placeholder="Digite sua senha" id="senha">
-                    <i class="fas fa-eye" id="eye2"></i>
+                    <i class="fas fa-eye" id="eye1"></i>
                 </div>
             </div>
             <div class="container-remember">
@@ -37,6 +36,13 @@
             <a href="/Front-end/create.html" class="redrect"><span class="create-acc">Não possui conta? Clique aqui para criar.</span></a>
         </div>
         <button class="login" onclick="logar()">Login</button>
+    </div>
+    <div class="modal-overlay" style="display: none;">
+        <div class="modal-card">
+            <h2 class="modal-tittle"></h2>
+            <p class="modal-text"></p>
+            <button class="modal-btn"></button>
+        </div>
     </div>
 </body>
 <script src="/Front-end/src/js/login-page/login.js"></script>
