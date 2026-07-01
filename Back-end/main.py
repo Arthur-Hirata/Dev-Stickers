@@ -15,6 +15,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 @app.route('/verifyIdentity', methods=['GET'])
 def verificarUsuario():
     auth_header = request.headers.get('Authorization')
+    if not auth_header or " " not in auth_header:
+        return jsonify({"mensagem": "Token ausente!"}), 401
     try:
         token = auth_header.split(" ")[1]
         payload = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
@@ -23,12 +25,13 @@ def verificarUsuario():
             "mensagem" : "Token válido",
             "nome" : payload['nome']
         }), 200
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem" : "Token expirado!"})
-    
-
-
-
+    except jwt.ExpiredSignatureError as e:
+        print(f"Erro detectado: O token realmente expirou! Detalhes: {e}")
+        return jsonify({"mensagem" : "Token expirado!"}), 401
+        
+    except jwt.InvalidTokenError as e:
+        print(f"Erro detectado: Assinatura ou chave inválida! Detalhes: {e}")
+        return jsonify({"mensagem" : "Token inválido!"}), 401
 
 @app.route('/getGroups', methods=['POST'])
 def pegarGrupos():
@@ -54,6 +57,7 @@ def pegarGrupos():
 def pegarFigurinhas():
     dados = request.json
     selecao = dados.get('selecao')
+    auth_header = request.headers.get('Authorization')
     try:
         with sqlite3.connect('banco-figurinhas.db') as conexao:
             cursor = conexao.cursor()
@@ -79,14 +83,14 @@ def criarUser():
     senha= dados.get('senha')
     senha_criptografada = generate_password_hash(senha)
     try:
-        with sqlite3.connect('banco-users.db') as conxexao:
-            cursor = conxexao.cursor()
+        with sqlite3.connect('banco-users.db') as conexao:
+            cursor = conexao.cursor()
             cursor.execute("INSERT INTO users (email, nome, senha) VALUES (?,?,?)", (email, nome, senha_criptografada))
-            conxexao.commit()
+            conexao.commit()
             user_id = cursor.lastrowid
         
         payload ={
-            'sub' : user_id,
+            'sub' : str(user_id),
             'nome' : nome,
             'admin' : "user",
             'exp' : datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=10)
@@ -117,7 +121,7 @@ def loginUser():
             tempo_expiracao = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=horas_expiracao)
 
             payload={
-                'sub' : user_id,
+                'sub' : str(user_id),
                 'nome' : user_name,
                 'admin' : user_role,
                 'exp' : tempo_expiracao

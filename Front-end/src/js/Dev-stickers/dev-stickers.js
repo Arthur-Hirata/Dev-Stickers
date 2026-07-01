@@ -15,19 +15,29 @@ function getIdentity(){
                 'Authorization': `Bearer ${userToken}`
             }
         })
-        .then(response => response.json())
+        .then(response =>{
+            if (!response.ok){
+                throw new Error("Token inválido no servidor")
+                userNotlogged()
+            }
+             return response.json();
+        } )
         .then(data =>{
             if (data.mensagem === "Token válido"){
                 const btnLogar = document.querySelector(".login")
                 btnLogar.textContent = data.nome
+                userlogged();
             }
             else {
-                console.log("token_invalido")
+                console.log("token_invalido", )
             }
         })
     }else{
 
     }
+}
+function userlogged(){
+
 }
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{
@@ -87,7 +97,7 @@ function getStickers(){
                 const divNomeFigurinha = document.createElement('div')
                 divNomeFigurinha.className ='card-number'
                 divNomeFigurinha.textContent = figurinha.nome
-                li.className='card'
+                li.className='missing'
                 const controls= document.createElement('div')
                 controls.className = 'controls'
                 const btnSomar = document.createElement('button')
