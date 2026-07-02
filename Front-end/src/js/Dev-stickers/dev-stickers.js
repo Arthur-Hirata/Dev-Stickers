@@ -37,7 +37,31 @@ function getIdentity(){
     }
 }
 function userlogged(){
+    const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
+    figurinhasNaoMarcadas.forEach(figurinha =>{
+        figurinha.addEventListener("click", function(e){
+            const idFigurinha = figurinha.dataset.id
+            fetch('http://127.0.0.1:5000/markSticker', {
+                method : 'POST', 
+                headers : {
+                    'Authorization': `Bearer ${userToken}`
+                },
+                body : JSON.stringify({
+                    figId : idFigurinha,
+                })
+            })
+        })
+        .then(response => response.json())
+        .then(data=>{
+            if (data.mensagem === "figurinha adicionada!"){
+                figurinha.className = "card"
+            }
+        })
+        
+    })
 
+    //const spanQuantidade = figurinha.querySelector(".duplicate")
+    //const quantidadeTexto = spanQuantidade.textContent.trim()
 }
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{

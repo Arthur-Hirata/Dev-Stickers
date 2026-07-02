@@ -1,7 +1,8 @@
 import sqlite3
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os 
+import os
+import json
 from dotenv import load_dotenv
 import jwt
 import datetime
@@ -58,6 +59,14 @@ def pegarFigurinhas():
     dados = request.json
     selecao = dados.get('selecao')
     auth_header = request.headers.get('Authorization')
+    user_id = None
+    if auth_header and " " in auth_header:
+        try:
+            token = auth_header.split(" ")[1]
+            payload = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
+            user_id = payload['sub']
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+            pass
     try:
         with sqlite3.connect('banco-figurinhas.db') as conexao:
             cursor = conexao.cursor()
@@ -139,10 +148,38 @@ def loginUser():
 
     except sqlite3.Error as e:
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
-        
-        
+@app.route('/markSticker', methods=['POST'])
+def marcarFigurinha():
+    dados = request.json
+    idFigurinha = dados.get('figId')
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or " " in auth_header:
+        return jsonify({"mensagem" : "Token expirado!"}), 401
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_id = payload['sub']
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    
+    if not idFigurinha:
+            return jsonify({"mensagem" : "ID da figurinha não enviado"}), 400
+     
+    with sqlite3.connect("banco-users.db") as conexao:
+        cursor = conexao.cursor()
+        cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
+        resultado = cursor.fetchone()
+    texto_no_banco= resultado[0] if resultado and resultado[0] else None
+    figurinhas_lista = json.loads(texto_no_banco) if texto_no_banco else []    
 
+    for item in figurinhas_lista:
+        if item['id'] == idFigurinha:
+            item['quantidade'] +=1
+            break
 
+    cursor.execute("UPDATE users SET figurinhas =? WHERE id=?", (json.dump(figurinhas_lista), user_id))
+    conexao.commit()
+    return jsonify({"mensagem" : "figurinha adicionada!"})
 
 
 
