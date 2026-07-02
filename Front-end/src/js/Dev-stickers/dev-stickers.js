@@ -39,29 +39,30 @@ function getIdentity(){
 function userlogged(){
     const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
     figurinhasNaoMarcadas.forEach(figurinha =>{
-        figurinha.addEventListener("click", function(e){
+        figurinha.addEventListener("click", function(){
             const idFigurinha = figurinha.dataset.id
-            fetch('http://127.0.0.1:5000/markSticker', {
-                method : 'POST', 
-                headers : {
-                    'Authorization': `Bearer ${userToken}`
+            console.log(idFigurinha)
+            fetch("http://127.0.0.1:5000/markSticker", {
+                method : 'POST',
+                headers :{
+                     'Authorization': `Bearer ${userToken}`,
+                     'Content-Type': 'application/json'
                 },
                 body : JSON.stringify({
-                    figId : idFigurinha,
+                    figId : idFigurinha
                 })
+            }).then(response => response.json())
+            .then(data =>{
+                if (data.mensagem === "figurinha adicionada!"){
+                    figurinha.className = "card"
+                }
             })
         })
-        .then(response => response.json())
-        .then(data=>{
-            if (data.mensagem === "figurinha adicionada!"){
-                figurinha.className = "card"
-            }
-        })
-        
     })
-
-    //const spanQuantidade = figurinha.querySelector(".duplicate")
-    //const quantidadeTexto = spanQuantidade.textContent.trim()
+   
+}
+function userNotlogged(){
+    
 }
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{

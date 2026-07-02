@@ -153,7 +153,7 @@ def marcarFigurinha():
     dados = request.json
     idFigurinha = dados.get('figId')
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " in auth_header:
+    if not auth_header or " " not in auth_header:
         return jsonify({"mensagem" : "Token expirado!"}), 401
     try:
         token = auth_header.split(" ")[1]
@@ -169,17 +169,22 @@ def marcarFigurinha():
         cursor = conexao.cursor()
         cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
         resultado = cursor.fetchone()
-    texto_no_banco= resultado[0] if resultado and resultado[0] else None
+    texto_no_banco= resultado[0] 
     figurinhas_lista = json.loads(texto_no_banco) if texto_no_banco else []    
-
+    ja_existe = False
     for item in figurinhas_lista:
         if item['id'] == idFigurinha:
-            item['quantidade'] +=1
+            ja_existe = True
             break
 
-    cursor.execute("UPDATE users SET figurinhas =? WHERE id=?", (json.dump(figurinhas_lista), user_id))
+    if not ja_existe:
+        figurinhas_lista.append({
+            'id' : idFigurinha,
+            'quantidade' : 1
+        })
+    cursor.execute("UPDATE users SET figurinhas =? WHERE id=?", (json.dumps(figurinhas_lista), user_id))
     conexao.commit()
-    return jsonify({"mensagem" : "figurinha adicionada!"})
+    return jsonify({"mensagem" : "figurinha adicionada!"}), 200 
 
 
 
