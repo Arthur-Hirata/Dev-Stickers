@@ -188,7 +188,7 @@ def marcarFigurinha():
 
 @app.route('/getUsersStickers', methods=['POST', 'GET'])
 def pegar_figurinhas_do_usuário():
-    dados = request.json
+    dados = request.get_json(silent=True) or {}
     selecao = dados.get('selecao')
     auth_header = request.headers.get('Authorization')
     if not auth_header or " " not in auth_header:
@@ -208,21 +208,22 @@ def pegar_figurinhas_do_usuário():
             cursor.execute("SELECT id, nome FROM figurinhas WHERE selecao =?", (selecao,))
             figurinhas = cursor.fetchall()
 
-
-
         with sqlite3.connect("banco-users.db") as conexao:
             cursor = conexao.cursor()
             cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
             user_figurinhas = cursor.fetchall()
         
+        ids_do_usuario = []
         if user_figurinhas and user_figurinhas[0][0]:
             try:
                 lista_json = json.loads(user_figurinhas[0][0])
-                ids_do_usuario = [int(item('id')) for item in lista_json if 'id' in item]
-        
-            except json.JSONDecodeError:
-                ids_do_usuario=[]
-
+                ids_do_usuario = [
+                    int(item["id"])
+                    for item in lista_json
+                    if isinstance(item, dict) and "id" in item
+                ]
+            except (json.JSONDecodeError, TypeError, ValueError):
+                ids_do_usuario = []
 
         lista_faltantes = []
         lista_user=[]
@@ -240,9 +241,6 @@ def pegar_figurinhas_do_usuário():
         }), 200
     except sqlite3.Error as e:
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
-
-
-
 
 
 if __name__ == '__main__':

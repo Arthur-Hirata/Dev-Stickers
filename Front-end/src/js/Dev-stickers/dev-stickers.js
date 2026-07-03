@@ -1,7 +1,7 @@
 const selecaoNoalbum = document.querySelector('.nome-selecao')
 const album = document.querySelector('.selecao')
 const userToken = localStorage.getItem("JWT_token")
-
+let isLogged = false
 window.onload = function(){
     getGrous();
     getIdentity();
@@ -26,6 +26,7 @@ function getIdentity(){
                 const btnLogar = document.querySelector(".login")
                 btnLogar.textContent = data.nome
                 userlogged();
+                isLogged = true
             }
             else {
                 console.log("token_invalido", )
@@ -38,16 +39,12 @@ function getIdentity(){
 function userlogged(){
     getUserStickres();
 
-
-
-
-
-
     const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
     figurinhasNaoMarcadas.forEach(figurinha =>{
         figurinha.addEventListener("click", function(){
             const idFigurinha = figurinha.dataset.id
             console.log(idFigurinha)
+            alert("teste")
             fetch("http://127.0.0.1:5000/markSticker", {
                 method : 'POST',
                 headers :{
@@ -98,7 +95,11 @@ function getGrous(){
                     btnpais.addEventListener('click', function(){
                         album.innerHTML=''
                         selecaoNoalbum.textContent = selecao.pais
-                        getStickers();
+                        if (isLogged){
+                            getUserStickres()
+                        }else {
+                            getStickers();
+                        }
                     })
                     li.appendChild(btnpais)
 
@@ -193,6 +194,9 @@ function getUserStickres(){
                 controls.appendChild(btnSomar)
                 li.appendChild(divNomeFigurinha)
                 li.appendChild(controls)
+                li.addEventListener("click", function(){
+                    marcarFigurinha(li.dataset.id, li)
+                })
                 album.appendChild(li)
             })
             marcadas.forEach(figurinha =>{
@@ -201,7 +205,7 @@ function getUserStickres(){
                 const divNomeFigurinha = document.createElement('div')
                 divNomeFigurinha.className ='card-number'
                 divNomeFigurinha.textContent = figurinha.nome
-                li.className='missing'
+                li.className='card'
                 const controls= document.createElement('div')
                 controls.className = 'controls'
                 const btnSomar = document.createElement('button')
@@ -223,4 +227,44 @@ function getUserStickres(){
         }
     })
 }
-
+function marcarFigurinha (id, figurinha){
+    fetch('http://127.0.0.1:5000/markSticker', {
+        method : 'POST',
+        headers :{
+                     'Authorization': `Bearer ${userToken}`,
+                     'Content-Type': 'application/json'
+                },
+                body : JSON.stringify({
+                    figId : id
+                })
+                })
+            .then(response => response.json())
+            .then(data =>{
+                if (data.mensagem === "figurinha adicionada!"){
+                    figurinha.className = "card"
+                }
+            })
+    }
+const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
+    figurinhasNaoMarcadas.forEach(figurinha =>{
+        figurinha.addEventListener("click", function(){
+            const idFigurinha = figurinha.dataset.id
+            console.log(idFigurinha)
+            alert("teste")
+            fetch("http://127.0.0.1:5000/markSticker", {
+                method : 'POST',
+                headers :{
+                     'Authorization': `Bearer ${userToken}`,
+                     'Content-Type': 'application/json'
+                },
+                body : JSON.stringify({
+                    figId : idFigurinha
+                })
+            }).then(response => response.json())
+            .then(data =>{
+                if (data.mensagem === "figurinha adicionada!"){
+                    figurinha.className = "card"
+                }
+            })
+        })
+    })

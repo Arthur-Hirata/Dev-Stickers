@@ -1,5 +1,4 @@
 
-
 const testCard = document.getElementById("explain-test")
 testCard.addEventListener("click", function(){
     const explainText = document.querySelector(".explain")
@@ -7,13 +6,7 @@ testCard.addEventListener("click", function(){
     const btnDiminuir = document.createElement("btn")
     const quantidade = document.createElement("span")
     const btnAumentar = document.createElement("btn")
-
     divControls.className = "controls"
-    
-
-
-
-
     btnDiminuir.className = "remove"
     btnDiminuir.textContent="-"
     btnDiminuir.style.textAlign = "center"
@@ -22,7 +15,6 @@ testCard.addEventListener("click", function(){
     btnAumentar.classList = "add"
     btnAumentar.textContent = "📦"
     btnAumentar.style.textAlign = "center"
-
     if (testCard.className === "missing"){
         explainText.textContent = "Para adicionar repetidas ou remover, você deve passar o mouse por cima da figurinha e apertar nos botões"
         testCard.className = "card"
