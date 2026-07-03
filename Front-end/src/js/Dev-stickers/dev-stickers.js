@@ -4,7 +4,6 @@ const userToken = localStorage.getItem("JWT_token")
 
 window.onload = function(){
     getGrous();
-    getStickers();
     getIdentity();
 }
 function getIdentity(){
@@ -37,6 +36,13 @@ function getIdentity(){
     }
 }
 function userlogged(){
+    getUserStickres();
+
+
+
+
+
+
     const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
     figurinhasNaoMarcadas.forEach(figurinha =>{
         figurinha.addEventListener("click", function(){
@@ -62,7 +68,7 @@ function userlogged(){
    
 }
 function userNotlogged(){
-    
+    getStickers();
 }
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{
@@ -147,5 +153,74 @@ function getStickers(){
             console.log("Erro no banco de dados")
         }
     }).catch(err => console.error("Erro no fetch:", err));
+}
+function getUserStickres(){
+    const selecaoBuscada = selecaoNoalbum.textContent
+    fetch('http://127.0.0.1:5000/getUsersStickers', {
+        method : 'POST',
+        headers : {
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json'
+        }, 
+        body : JSON.stringify({
+            selecao : selecaoBuscada
+        })
+    }).then(response => response.json())
+    .then(data =>{
+        if (data.mensagem === "Busca efetudada com sucesso!"){
+            const faltantes = data.faltantes
+            const marcadas = data.marcadas
+            faltantes.forEach(figurinha=>{
+                const li = document.createElement('div')
+                li.dataset.id = figurinha.id
+                const divNomeFigurinha = document.createElement('div')
+                divNomeFigurinha.className ='card-number'
+                divNomeFigurinha.textContent = figurinha.nome
+                li.className='missing'
+                const controls= document.createElement('div')
+                controls.className = 'controls'
+                const btnSomar = document.createElement('button')
+                btnSomar.className ='add'
+                btnSomar.textContent ='📦'
+                const spanDuplicate = document.createElement('span')
+                spanDuplicate.className = 'duplicate'
+                spanDuplicate.textContent = '1'
+                const btnRemove = document.createElement('button')
+                btnRemove.className = 'remove'
+                btnRemove.textContent ='-'
+                controls.appendChild(btnRemove)
+                controls.appendChild(spanDuplicate)
+                controls.appendChild(btnSomar)
+                li.appendChild(divNomeFigurinha)
+                li.appendChild(controls)
+                album.appendChild(li)
+            })
+            marcadas.forEach(figurinha =>{
+                const li = document.createElement('div')
+                li.dataset.id = figurinha.id
+                const divNomeFigurinha = document.createElement('div')
+                divNomeFigurinha.className ='card-number'
+                divNomeFigurinha.textContent = figurinha.nome
+                li.className='missing'
+                const controls= document.createElement('div')
+                controls.className = 'controls'
+                const btnSomar = document.createElement('button')
+                btnSomar.className ='add'
+                btnSomar.textContent ='📦'
+                const spanDuplicate = document.createElement('span')
+                spanDuplicate.className = 'duplicate'
+                spanDuplicate.textContent = '1'
+                const btnRemove = document.createElement('button')
+                btnRemove.className = 'remove'
+                btnRemove.textContent ='-'
+                controls.appendChild(btnRemove)
+                controls.appendChild(spanDuplicate)
+                controls.appendChild(btnSomar)
+                li.appendChild(divNomeFigurinha)
+                li.appendChild(controls)
+                album.appendChild(li)
+            })
+        }
+    })
 }
 

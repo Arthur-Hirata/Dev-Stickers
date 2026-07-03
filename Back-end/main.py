@@ -186,6 +186,62 @@ def marcarFigurinha():
     conexao.commit()
     return jsonify({"mensagem" : "figurinha adicionada!"}), 200 
 
+@app.route('/getUsersStickers', methods=['POST', 'GET'])
+def pegar_figurinhas_do_usuário():
+    dados = request.json
+    selecao = dados.get('selecao')
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or " " not in auth_header:
+        return jsonify({"mensagem" : "Token expirado!"}), 401
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_id = payload['sub']
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    if not selecao:
+        return jsonify({"mensagem" : "Seleção não informada!"}), 400
+    
+    try:
+        with sqlite3.connect("banco-figurinhas.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT id, nome FROM figurinhas WHERE selecao =?", (selecao,))
+            figurinhas = cursor.fetchall()
+
+
+
+        with sqlite3.connect("banco-users.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
+            user_figurinhas = cursor.fetchall()
+        
+        if user_figurinhas and user_figurinhas[0][0]:
+            try:
+                lista_json = json.loads(user_figurinhas[0][0])
+                ids_do_usuario = [int(item('id')) for item in lista_json if 'id' in item]
+        
+            except json.JSONDecodeError:
+                ids_do_usuario=[]
+
+
+        lista_faltantes = []
+        lista_user=[]
+        
+        for fig_ID, fig_Nome in figurinhas:
+            dados_figurinhas = {'id': fig_ID, 'nome' : fig_Nome}
+            if fig_ID in ids_do_usuario:
+                lista_user.append(dados_figurinhas)
+            else :
+                lista_faltantes.append(dados_figurinhas)
+        return jsonify({
+            'mensagem' : "Busca efetudada com sucesso!", 
+            'marcadas' : lista_user,
+            'faltantes' : lista_faltantes
+        }), 200
+    except sqlite3.Error as e:
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+
+
 
 
 
