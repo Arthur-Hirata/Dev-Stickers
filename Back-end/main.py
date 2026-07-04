@@ -213,33 +213,39 @@ def pegar_figurinhas_do_usuário():
             cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
             user_figurinhas = cursor.fetchall()
         
-        ids_do_usuario = []
+        ids_do_usuario = {}
         if user_figurinhas and user_figurinhas[0][0]:
             try:
                 lista_json = json.loads(user_figurinhas[0][0])
-                ids_do_usuario = [
-                    int(item["id"])
+                ids_do_usuario = {
+                    int(item["id"]) : int(item.get("quantidade", 1))
                     for item in lista_json
                     if isinstance(item, dict) and "id" in item
-                ]
+                }
             except (json.JSONDecodeError, TypeError, ValueError):
-                ids_do_usuario = []
+                ids_do_usuario = {}
 
         lista_faltantes = []
         lista_user=[]
         
         for fig_ID, fig_Nome in figurinhas:
-            dados_figurinhas = {'id': fig_ID, 'nome' : fig_Nome}
             if fig_ID in ids_do_usuario:
+                qnt = ids_do_usuario[fig_ID]
+                dados_figurinhas = {'id': fig_ID, 'nome' : fig_Nome, 'quantidade': qnt }
                 lista_user.append(dados_figurinhas)
             else :
+                dados_figurinhas = {'id': fig_ID, 'nome' : fig_Nome, 'quantidade': 0 }
                 lista_faltantes.append(dados_figurinhas)
+
+        lista_user.sort(key=lambda x:x['id'])
+        lista_faltantes.sort(key=lambda x: x['id'])
         return jsonify({
             'mensagem' : "Busca efetudada com sucesso!", 
             'marcadas' : lista_user,
             'faltantes' : lista_faltantes
         }), 200
     except sqlite3.Error as e:
+        print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
 
 

@@ -39,30 +39,7 @@ function getIdentity(){
 function userlogged(){
     getUserStickres();
 
-    const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
-    figurinhasNaoMarcadas.forEach(figurinha =>{
-        figurinha.addEventListener("click", function(){
-            const idFigurinha = figurinha.dataset.id
-            console.log(idFigurinha)
-            alert("teste")
-            fetch("http://127.0.0.1:5000/markSticker", {
-                method : 'POST',
-                headers :{
-                     'Authorization': `Bearer ${userToken}`,
-                     'Content-Type': 'application/json'
-                },
-                body : JSON.stringify({
-                    figId : idFigurinha
-                })
-            }).then(response => response.json())
-            .then(data =>{
-                if (data.mensagem === "figurinha adicionada!"){
-                    figurinha.className = "card"
-                }
-            })
-        })
-    })
-   
+    
 }
 function userNotlogged(){
     getStickers();
@@ -171,59 +148,54 @@ function getUserStickres(){
         if (data.mensagem === "Busca efetudada com sucesso!"){
             const faltantes = data.faltantes
             const marcadas = data.marcadas
-            faltantes.forEach(figurinha=>{
-                const li = document.createElement('div')
-                li.dataset.id = figurinha.id
-                const divNomeFigurinha = document.createElement('div')
-                divNomeFigurinha.className ='card-number'
-                divNomeFigurinha.textContent = figurinha.nome
-                li.className='missing'
-                const controls= document.createElement('div')
-                controls.className = 'controls'
-                const btnSomar = document.createElement('button')
-                btnSomar.className ='add'
-                btnSomar.textContent ='📦'
-                const spanDuplicate = document.createElement('span')
-                spanDuplicate.className = 'duplicate'
-                spanDuplicate.textContent = '1'
-                const btnRemove = document.createElement('button')
-                btnRemove.className = 'remove'
-                btnRemove.textContent ='-'
-                controls.appendChild(btnRemove)
-                controls.appendChild(spanDuplicate)
-                controls.appendChild(btnSomar)
-                li.appendChild(divNomeFigurinha)
-                li.appendChild(controls)
-                li.addEventListener("click", function(){
-                    marcarFigurinha(li.dataset.id, li)
+            const faltantesStatus =  faltantes.map(fig => ({ ...fig, marcada: false }));
+            const marcadasStatus = marcadas.map(fig => ({ ...fig, marcada: true }));
+
+            const todasAsFigurinhas = [...faltantesStatus, ...marcadasStatus].sort((a,b)=> a.id -b.id)
+
+            todasAsFigurinhas.forEach(figurinha =>{
+                const li = document.createElement('div');
+                li.dataset.id = figurinha.id;
+    
+                const divNomeFigurinha = document.createElement('div');
+                divNomeFigurinha.className = 'card-number';
+                divNomeFigurinha.textContent = figurinha.nome;
+    
+                const controls = document.createElement('div');
+                controls.className = 'controls';
+    
+                const btnSomar = document.createElement('button');
+                btnSomar.className = 'add';
+                btnSomar.textContent = '📦';
+    
+                const spanDuplicate = document.createElement('span');
+                spanDuplicate.className = 'duplicate';
+    
+                const btnRemove = document.createElement('button');
+                btnRemove.className = 'remove';
+                btnRemove.textContent = '-';
+                btnRemove.addEventListener("click", function(){
+                    dminiuirFigurinhas(li.dataset.id, quantidade)
                 })
+                controls.appendChild(btnRemove);
+                controls.appendChild(spanDuplicate);
+                controls.appendChild(btnSomar);
+    
+                li.appendChild(divNomeFigurinha);
+                li.appendChild(controls);
+
+                if (figurinha.marcada){
+                    li.className = 'card'
+                    spanDuplicate.textContent = figurinha.quantidade;
+                }else{
+                    li.className = 'missing'
+                    li.addEventListener("click", function(){
+                        marcarFigurinha(li.dataset.id,li)
+                    })
+                    spanDuplicate.textContent="1"
+                }
                 album.appendChild(li)
-            })
-            marcadas.forEach(figurinha =>{
-                const li = document.createElement('div')
-                li.dataset.id = figurinha.id
-                const divNomeFigurinha = document.createElement('div')
-                divNomeFigurinha.className ='card-number'
-                divNomeFigurinha.textContent = figurinha.nome
-                li.className='card'
-                const controls= document.createElement('div')
-                controls.className = 'controls'
-                const btnSomar = document.createElement('button')
-                btnSomar.className ='add'
-                btnSomar.textContent ='📦'
-                const spanDuplicate = document.createElement('span')
-                spanDuplicate.className = 'duplicate'
-                spanDuplicate.textContent = '1'
-                const btnRemove = document.createElement('button')
-                btnRemove.className = 'remove'
-                btnRemove.textContent ='-'
-                controls.appendChild(btnRemove)
-                controls.appendChild(spanDuplicate)
-                controls.appendChild(btnSomar)
-                li.appendChild(divNomeFigurinha)
-                li.appendChild(controls)
-                album.appendChild(li)
-            })
+            })           
         }
     })
 }
@@ -245,26 +217,6 @@ function marcarFigurinha (id, figurinha){
                 }
             })
     }
-const figurinhasNaoMarcadas = document.querySelectorAll(".selecao > .missing")
-    figurinhasNaoMarcadas.forEach(figurinha =>{
-        figurinha.addEventListener("click", function(){
-            const idFigurinha = figurinha.dataset.id
-            console.log(idFigurinha)
-            alert("teste")
-            fetch("http://127.0.0.1:5000/markSticker", {
-                method : 'POST',
-                headers :{
-                     'Authorization': `Bearer ${userToken}`,
-                     'Content-Type': 'application/json'
-                },
-                body : JSON.stringify({
-                    figId : idFigurinha
-                })
-            }).then(response => response.json())
-            .then(data =>{
-                if (data.mensagem === "figurinha adicionada!"){
-                    figurinha.className = "card"
-                }
-            })
-        })
-    })
+function dminiuirFigurinhas(id, quantidade, figurinha){
+
+}
