@@ -247,6 +247,44 @@ def pegar_figurinhas_do_usuário():
     except sqlite3.Error as e:
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+@app.route('/decreaseStickers', methods=['POST'])
+def diminuirFigurinhas():
+    dados = request.get_json(silent=True) or {}
+    figId = dados.get('selecao')
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or " " not in auth_header:
+        return jsonify({"mensagem" : "Token expirado!"}), 401
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_id = payload['sub']
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    try:
+        with sqlite3.connect("banco-users.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
+            lista_user = cursor.fetchone()
+            figurinhas_user = []
+
+            if lista_user and lista_user[0]:
+                figurinhas_user = json.loads(lista_user[0])
+
+                for figurinha in figurinhas_user:
+                    if figurinha['id'] == figId:
+                        figurinha['quantidade'] -= 1
+                        break
+            cursor.execute("UPDATE users SET figurinhas = ? WHERE id=?", (json.dumps(figurinhas_user), user_id,))
+            conexao.commit()
+            return jsonify({"mensagem" : "Mudança efetuada com sucesso!"}), 200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro no banco de dados"}), 500
+
+
+
+
+
 
 
 if __name__ == '__main__':
