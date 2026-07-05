@@ -167,6 +167,9 @@ function getUserStickres(){
                 const btnSomar = document.createElement('button');
                 btnSomar.className = 'add';
                 btnSomar.textContent = '📦';
+                btnSomar.addEventListener("click", function(){
+                    aumentarFigurinhas(li.dataset.id, li)
+                })
     
                 const spanDuplicate = document.createElement('span');
                 spanDuplicate.className = 'duplicate';
@@ -175,7 +178,7 @@ function getUserStickres(){
                 btnRemove.className = 'remove';
                 btnRemove.textContent = '-';
                 btnRemove.addEventListener("click", function(){
-                    dminiuirFigurinhas(li.dataset.id, quantidade)
+                    dminiuirFigurinhas(li.dataset.id, li)
                 })
                 controls.appendChild(btnRemove);
                 controls.appendChild(spanDuplicate);
@@ -203,20 +206,56 @@ function marcarFigurinha (id, figurinha){
     fetch('http://127.0.0.1:5000/markSticker', {
         method : 'POST',
         headers :{
-                     'Authorization': `Bearer ${userToken}`,
-                     'Content-Type': 'application/json'
-                },
-                body : JSON.stringify({
-                    figId : id
-                })
-                })
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
+        body : JSON.stringify({
+                figId : id
+            })
+        })
             .then(response => response.json())
             .then(data =>{
                 if (data.mensagem === "figurinha adicionada!"){
                     figurinha.className = "card"
                 }
             })
-    }
-function dminiuirFigurinhas(id, quantidade, figurinha){
+}
+function aumentarFigurinhas(id, figurinha){
+    fetch('http://127.0.0.1:5000/increaseSticker', {
+        method : 'POST',
+        headers :{
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+            figID : id
+        })
+    })
+    .then(response=>response.json())
+    .then(data=>{
+        const spanDuplicate = figurinha.querySelector(".duplicate")
+        if (data.mensagem === "Mudança efetuada com sucesso!"){
+            spanDuplicate.textContent = data.qnt
+        }
+    })
+}
 
+function dminiuirFigurinhas(id,figurinha){
+    fetch('http://127.0.0.1:5000/decreaseSticker', {
+        method : 'POST',
+        headers :{
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json'
+        },
+        body : JSON.stringify({
+            figID : id
+        })
+    })
+    .then(response=>response.json())
+    .then(data=>{
+        const spanDuplicate = figurinha.querySelector(".duplicate")
+        if (data.mensagem === "Mudança efetuada com sucesso!"){
+            spanDuplicate.textContent = data.qnt
+        }
+    })
 }
