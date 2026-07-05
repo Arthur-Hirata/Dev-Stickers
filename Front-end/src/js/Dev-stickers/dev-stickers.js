@@ -29,7 +29,8 @@ function getIdentity(){
                 isLogged = true
             }
             else {
-                console.log("token_invalido", )
+                console.log("token_invalido" )
+                userNotlogged();
             }
         })
     }else{
@@ -38,7 +39,7 @@ function getIdentity(){
 }
 function userlogged(){
     getUserStickres();
-
+    pegarQuantidadeMarcadas();
     
 }
 function userNotlogged(){
@@ -124,6 +125,9 @@ function getStickers(){
                 li.appendChild(divNomeFigurinha)
                 li.appendChild(controls)
                 album.appendChild(li)
+                li.addEventListener("click", function(){
+                    alert("tem que ta loggado ")
+                })
             })
 
 
@@ -161,41 +165,40 @@ function getUserStickres(){
                 divNomeFigurinha.className = 'card-number';
                 divNomeFigurinha.textContent = figurinha.nome;
     
-                const controls = document.createElement('div');
-                controls.className = 'controls';
-    
-                const btnSomar = document.createElement('button');
-                btnSomar.className = 'add';
-                btnSomar.textContent = '📦';
-                btnSomar.addEventListener("click", function(){
-                    aumentarFigurinhas(li.dataset.id, li)
-                })
-    
-                const spanDuplicate = document.createElement('span');
-                spanDuplicate.className = 'duplicate';
-    
-                const btnRemove = document.createElement('button');
-                btnRemove.className = 'remove';
-                btnRemove.textContent = '-';
-                btnRemove.addEventListener("click", function(){
-                    dminiuirFigurinhas(li.dataset.id, li)
-                })
-                controls.appendChild(btnRemove);
-                controls.appendChild(spanDuplicate);
-                controls.appendChild(btnSomar);
-    
                 li.appendChild(divNomeFigurinha);
-                li.appendChild(controls);
+                
 
                 if (figurinha.marcada){
                     li.className = 'card'
-                    spanDuplicate.textContent = figurinha.quantidade;
+                    const controls = document.createElement('div');
+                    controls.className = 'controls'
+                    const btnSomar = document.createElement('button');
+                    btnSomar.className = 'add';
+                    btnSomar.textContent = '📦';
+                    btnSomar.addEventListener("click", function(e){
+                        e.stopPropagation(); 
+                        aumentarFigurinhas(li.dataset.id, li)
+                    })
+                    const spanDuplicate = document.createElement('span');
+                    spanDuplicate.className = 'duplicate';
+                    const btnRemove = document.createElement('button');
+                    btnRemove.className = 'remove';
+                    btnRemove.textContent = '-';
+                    btnRemove.addEventListener("click", function(e){
+                        e.stopPropagation(); 
+                        dminiuirFigurinhas(li.dataset.id, li)
+                    })
+
+                    controls.appendChild(btnRemove);
+                    controls.appendChild(spanDuplicate);
+                    controls.appendChild(btnSomar);
+                    li.appendChild(controls);
+                    spanDuplicate.textContent = figurinha.quantidade
                 }else{
                     li.className = 'missing'
                     li.addEventListener("click", function(){
                         marcarFigurinha(li.dataset.id,li)
                     })
-                    spanDuplicate.textContent="1"
                 }
                 album.appendChild(li)
             })           
@@ -216,7 +219,39 @@ function marcarFigurinha (id, figurinha){
             .then(response => response.json())
             .then(data =>{
                 if (data.mensagem === "figurinha adicionada!"){
-                    figurinha.className = "card"
+                    pegarQuantidadeMarcadas();
+                    const novoCard = figurinha.cloneNode(true)
+                    figurinha.parentNode.replaceChild(novoCard, figurinha)
+
+                    
+                    novoCard.className = "card"
+                    const controls = document.createElement('div');
+                    controls.className = 'controls'
+                    const btnSomar = document.createElement('button');
+                    btnSomar.className = 'add';
+                    btnSomar.textContent = '📦';
+                    btnSomar.addEventListener("click", function(e){
+                        e.stopPropagation(); 
+                        aumentarFigurinhas(novoCard.dataset.id, novoCard)
+                        pegarQuantidadeMarcadas();
+                    })
+                    const spanDuplicate = document.createElement('span');
+                    spanDuplicate.className = 'duplicate';
+                    const btnRemove = document.createElement('button');
+                    btnRemove.className = 'remove';
+                    btnRemove.textContent = '-';
+                    btnRemove.addEventListener("click", function(e){
+                        e.stopPropagation(); 
+                        dminiuirFigurinhas(novoCard.dataset.id, novoCard)
+                        pegarQuantidadeMarcadas();
+                    })
+
+                    controls.appendChild(btnRemove);
+                    controls.appendChild(spanDuplicate);
+                    controls.appendChild(btnSomar);
+                    novoCard.appendChild(controls);
+                    spanDuplicate.textContent = data.qnt
+                    
                 }
             })
 }
@@ -241,21 +276,73 @@ function aumentarFigurinhas(id, figurinha){
 }
 
 function dminiuirFigurinhas(id,figurinha){
-    fetch('http://127.0.0.1:5000/decreaseSticker', {
-        method : 'POST',
-        headers :{
-            'Authorization': `Bearer ${userToken}`,
-            'Content-Type': 'application/json'
-        },
-        body : JSON.stringify({
-            figID : id
+    const spanDuplicate = figurinha.querySelector(".duplicate")
+    const quantidadeAtual = parseInt(spanDuplicate.textContent)
+    if (quantidadeAtual > 1){
+        fetch('http://127.0.0.1:5000/decreaseSticker', {
+            method : 'POST',
+            headers :{
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                figID : id
+            })
         })
+        .then(response=>response.json())
+        .then(data=>{
+            const spanDuplicate = figurinha.querySelector(".duplicate")
+            if (data.mensagem === "Mudança efetuada com sucesso!"){
+                spanDuplicate.textContent = data.qnt
+            }
+        })
+    } else{
+        fetch('http://127.0.0.1:5000/removeSticker', {
+            method : 'POST',
+            headers :{
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
+            body : JSON.stringify({
+                figID : id
+            })
+        })
+        .then(response => response.json())
+        .then(data=>{
+            if (data.mensagem === "Figurinha removida com sucesso!"){
+                const cardFaltante = figurinha.cloneNode(true)
+                figurinha.parentNode.replaceChild(cardFaltante, figurinha)
+                cardFaltante.className = "missing"
+
+                const controls = cardFaltante.querySelector(".controls")
+                if (controls){
+                    controls.remove()
+                }
+                cardFaltante.addEventListener("click", function(){
+                    marcarFigurinha(cardFaltante.dataset.id, cardFaltante)
+                })
+
+            }
+        })
+    }
+}
+function pegarQuantidadeMarcadas(){
+    fetch('http://127.0.0.1:5000/getMarkedStickres', {
+        method : 'POST',
+            headers :{
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
     })
-    .then(response=>response.json())
-    .then(data=>{
-        const spanDuplicate = figurinha.querySelector(".duplicate")
-        if (data.mensagem === "Mudança efetuada com sucesso!"){
-            spanDuplicate.textContent = data.qnt
-        }
+    .then(response => response.json())
+    .then(data =>{
+        const stickersCount = document.getElementById("stickers-count")
+        stickersCount.innerHTML = `${data.total}/980`
+        const barraDeProgresso = document.querySelector(".progress-bar")
+        const porcentagemProgresso = document.getElementById("progress-percentage")
+
+        const porcentatem = ((data.total / 980) * 100).toFixed(1)
+        barraDeProgresso.style.width = `${porcentatem}%`
+        porcentagemProgresso.innerHTML = `${porcentatem}%`
     })
 }
