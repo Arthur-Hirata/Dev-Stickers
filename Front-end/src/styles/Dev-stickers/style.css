@@ -54,6 +54,22 @@ button:hover{
     font-weight: bolder;
     text-align: center;
 }
+.toast-notification{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-24px);
+    opacity: 0;
+    pointer-events: none;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+    font-size: 20px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
 
 
 

@@ -30,7 +30,7 @@ function getIdentity(){
             }
             else {
                 console.log("token_invalido" )
-                userNotlogged();
+                getStickers();
             }
         })
     }else{
@@ -42,9 +42,7 @@ function userlogged(){
     pegarQuantidadeMarcadas();
     
 }
-function userNotlogged(){
-    getStickers();
-}
+
 function getGrous(){
     fetch('http://127.0.0.1:5000/getGroups',{
         method : 'POST'
@@ -88,6 +86,17 @@ function getGrous(){
         })
     })
 }
+function toastShow(){
+    const toast = document.getElementById('toast');
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(-24px)';
+    }, 2500);
+
+}
 function getStickers(){
     const selecaoBuscada = selecaoNoalbum.textContent
     fetch('http://127.0.0.1:5000/getStickers',{
@@ -126,7 +135,7 @@ function getStickers(){
                 li.appendChild(controls)
                 album.appendChild(li)
                 li.addEventListener("click", function(){
-                    alert("tem que ta loggado ")
+                    toastShow();
                 })
             })
 
@@ -344,5 +353,10 @@ function pegarQuantidadeMarcadas(){
         const porcentatem = ((data.total / 980) * 100).toFixed(1)
         barraDeProgresso.style.width = `${porcentatem}%`
         porcentagemProgresso.innerHTML = `${porcentatem}%`
+        if ( porcentatem == 100){
+            barraDeProgresso.style.color = "#22C55E"
+            porcentagemProgresso.innerHTML = `<i class = "fas fa-check"></i> Parabéns você completou o album!`
+            porcentagemProgresso.style.color = "#22C55E"
+        }
     })
 }
