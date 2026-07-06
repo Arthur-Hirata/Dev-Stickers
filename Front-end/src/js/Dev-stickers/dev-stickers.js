@@ -360,3 +360,51 @@ function pegarQuantidadeMarcadas(){
         }
     })
 }
+function pegarRepetidas(){
+     fetch('http://127.0.0.1:5000/getDuplicate', {
+        method : 'GET',
+            headers :{
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => {
+        if (!response.ok){
+            toastShow2('Você precisa estar loggado para realizar essa ação!');
+            throw new Error("Erro na requisição");
+        }
+        return response.json()
+    })
+    .then(data=>{
+        console.log("Dados recebidos do Flask:", data);
+        if (data.mensagem === "Busca efetuada com sucesso!"){
+            let userRepetidas = "🔄 *MINHAS FIGURINHAS REPETIDAS:* \n\n"
+            const repetidas = data.repetidas
+            if (repetidas.length === 0){
+                userRepetidas += "Sem repetiadas no momento!"
+            }else{
+                repetidas.forEach(repetida=>{
+                    userRepetidas += `• ${repetida.nome} (Repetidas: ${repetida.quantidade})\n`
+                });
+            }
+             navigator.clipboard.writeText(userRepetidas)
+                .then(()=>{
+                    toastShow2('Figurinhas copiadas!')
+                })
+        }
+        if (data.mensagem === "Erro no banco de daddos!"){
+                    toastShow2('Erro em nosso banco de dados.!')
+        }
+    }).catch(error => console.error("Erro no processo:", error));
+}
+function toastShow2(mensagem){
+    const toast2 = document.getElementById('toast2');
+    toast2.textContent = mensagem
+    toast2.style.opacity = '1';
+    toast2.style.transform = 'translateX(-50%) translateY(0)';
+
+    setTimeout(() => {
+        toast2.style.opacity = '0';
+        toast2.style.transform = 'translateX(-50%) translateY(-24px)';
+    }, 2500);
+}

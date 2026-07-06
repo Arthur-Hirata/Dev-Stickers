@@ -391,7 +391,54 @@ def pegarQuantidadeFaltante():
         print(e)
         return jsonify({"mensagem" : "Erro no banco de dados!"}), 500
 
+@app.route('/getDuplicate', methods=['GET'])
+def pegarRepetidas():
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or " " not in auth_header:
+        return jsonify({"mensagem" : "Token expirado!"}), 401
+    try:
+        token = auth_header.split(" ")[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        user_id = payload['sub']
+    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
+        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    try: 
+        with sqlite3.connect("banco-figurinhas.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT id, nome FROM figurinhas")
+            lista_fig = cursor.fetchall()
 
+        with sqlite3.connect("banco-users.db") as conexao:
+            cursor = conexao.cursor()
+            cursor.execute("SELECT figurinhas FROM users WHERE id=?", (user_id,))
+            lista_user  = cursor.fetchall()
+        figurinhas_user =[]
+        lista_repetidas = []
+        if lista_user and lista_user[0]:
+            try:
+                lista_json = json.loads(lista_user[0][0])
+                ids_do_usuario = {
+                    int(item["id"]) : int(item.get("quantidade", 1))
+                    for item in lista_json
+                    if isinstance(item, dict) and "id" in item
+                }
+            except (json.JSONDecodeError, TypeError, ValueError):
+                ids_do_usuario = {}
+        
+        for fig_ID, fig_Nome in lista_fig:
+            if fig_ID in ids_do_usuario:
+                qnt = ids_do_usuario[fig_ID]
+                if qnt > 1:
+                    dados_figurinhas = {"nome" : fig_Nome, 'quantidade' : qnt -1}
+                    lista_repetidas.append(dados_figurinhas)
+
+        return jsonify({
+            "mensagem" : "Busca efetuada com sucesso!", 
+            'repetidas' : lista_repetidas
+        }), 200
+    except sqlite3.Error as e:
+        print(e)
+        return jsonify({"mensagem" : "Erro no banco de daddos!"}), 500
 
 
 if __name__ == '__main__':
