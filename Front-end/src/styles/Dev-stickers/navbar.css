@@ -50,6 +50,9 @@ nav{
 #links{
     transform: scale(1.02);
 }
+#links:hover{
+    color: var(--duplicate);
+}
 .login{ 
     margin-left: 240px;
     width: 120px;

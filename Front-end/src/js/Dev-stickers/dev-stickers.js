@@ -361,7 +361,7 @@ function pegarQuantidadeMarcadas(){
     })
 }
 function pegarRepetidas(){
-     fetch('http://127.0.0.1:5000/getDuplicate', {
+    fetch('http://127.0.0.1:5000/getDuplicate', {
         method : 'GET',
             headers :{
                 'Authorization': `Bearer ${userToken}`,
@@ -397,6 +397,43 @@ function pegarRepetidas(){
         }
     }).catch(error => console.error("Erro no processo:", error));
 }
+function pegarFaltantes(){
+    fetch('http://127.0.0.1:5000/getMissing', {
+        method : 'GET',
+            headers :{
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json'
+            },
+    })
+    .then(response => {
+        if (!response.ok){
+            toastShow2('Você precisa estar loggado para realizar essa ação!');
+            throw new Error("Erro na requisição");
+        }
+        return response.json()
+    })
+    .then(data=>{
+        console.log("Dados recebidos do Flask:", data);
+        if (data.mensagem === "Busca efetuada com sucesso!"){
+            let userFaltantes = "🔄 *MINHAS FIGURINHAS FALTANTES:* \n\n"
+            const faltantes = data.faltantes
+            if (faltantes.length === 0){
+                toastShow2("Parabéns você já completou o álbum")
+            }else{
+                faltantes.forEach(repetida=>{
+                    userFaltantes += `• ${repetida.nome}`
+                });
+            }
+             navigator.clipboard.writeText(userFaltantes)
+                .then(()=>{
+                    toastShow2('Figurinhas copiadas!')
+                })
+        }
+        if (data.mensagem === "Erro no banco de daddos!"){
+                    toastShow2('Erro em nosso banco de dados.!')
+        }
+    }).catch(error => console.error("Erro no processo:", error));
+}
 function toastShow2(mensagem){
     const toast2 = document.getElementById('toast2');
     toast2.textContent = mensagem
@@ -408,3 +445,4 @@ function toastShow2(mensagem){
         toast2.style.transform = 'translateX(-50%) translateY(-24px)';
     }, 2500);
 }
+
