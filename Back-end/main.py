@@ -13,26 +13,36 @@ CORS(app)
 load_dotenv(dotenv_path='.env')
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+
+def validar_token(auth_header, mensagem_ausente="Token ausente!", mensagem_expirada="Token expirado!", mensagem_invalido="Token inválido!"):
+    if not auth_header or " " not in auth_header:
+        return None, (jsonify({"mensagem": mensagem_ausente}), 401)
+
+    try:
+        token = auth_header.split(" ", 1)[1]
+        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+        return payload, None
+    except jwt.ExpiredSignatureError:
+        return None, (jsonify({"mensagem": mensagem_expirada}), 401)
+    except jwt.InvalidTokenError:
+        return None, (jsonify({"mensagem": mensagem_invalido}), 401)
+
+
+
+
+
+
 @app.route('/verifyIdentity', methods=['GET'])
 def verificarUsuario():
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem": "Token ausente!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
+    payload, erro = validar_token(auth_header)
+    if erro:
+        return erro
 
-        return jsonify({
-            "mensagem" : "Token válido",
-            "nome" : payload['nome']
-        }), 200
-    except jwt.ExpiredSignatureError as e:
-        print(f"Erro detectado: O token realmente expirou! Detalhes: {e}")
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-        
-    except jwt.InvalidTokenError as e:
-        print(f"Erro detectado: Assinatura ou chave inválida! Detalhes: {e}")
-        return jsonify({"mensagem" : "Token inválido!"}), 401
+    return jsonify({
+        "mensagem" : "Token válido",
+        "nome" : payload['nome']
+    }), 200
 
 @app.route('/getGroups', methods=['POST'])
 def pegarGrupos():
@@ -60,13 +70,9 @@ def pegarFigurinhas():
     selecao = dados.get('selecao')
     auth_header = request.headers.get('Authorization')
     user_id = None
-    if auth_header and " " in auth_header:
-        try:
-            token = auth_header.split(" ")[1]
-            payload = jwt.decode(token,SECRET_KEY, algorithms=['HS256'])
-            user_id = payload['sub']
-        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-            pass
+    payload, erro = validar_token(auth_header)
+    if payload:
+        user_id = payload.get('sub')
     try:
         with sqlite3.connect('banco-figurinhas.db') as conexao:
             cursor = conexao.cursor()
@@ -153,14 +159,15 @@ def marcarFigurinha():
     dados = request.json
     idFigurinha = dados.get('figId')
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     
     if not idFigurinha:
             return jsonify({"mensagem" : "ID da figurinha não enviado"}), 400
@@ -191,14 +198,15 @@ def pegar_figurinhas_do_usuário():
     dados = request.get_json(silent=True) or {}
     selecao = dados.get('selecao')
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     if not selecao:
         return jsonify({"mensagem" : "Seleção não informada!"}), 400
     
@@ -239,10 +247,14 @@ def pegar_figurinhas_do_usuário():
 
         lista_user.sort(key=lambda x:x['id'])
         lista_faltantes.sort(key=lambda x: x['id'])
+        aviso = ""
+        if not lista_faltantes:
+            aviso = "Completo"
         return jsonify({
             'mensagem' : "Busca efetudada com sucesso!", 
             'marcadas' : lista_user,
-            'faltantes' : lista_faltantes
+            'faltantes' : lista_faltantes,
+            'aviso': aviso
         }), 200
     except sqlite3.Error as e:
         print(e)
@@ -253,14 +265,15 @@ def aumentarFigurinha():
     dados = request.get_json(silent=True) or {}
     figId = dados.get('figID')
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     try:
         with sqlite3.connect("banco-users.db") as conexao:
             cursor=conexao.cursor()
@@ -288,14 +301,15 @@ def diminuirFigurinha():
     dados = request.get_json(silent=True) or {}
     figId = dados.get('figID')
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     try:
         with sqlite3.connect("banco-users.db") as conexao:
             cursor = conexao.cursor()
@@ -331,15 +345,15 @@ def removerFigurinhas():
         return jsonify({"mensagem": "ID da figurinha não enviado!"}), 400
 
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
-    
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
 
     try:
         with sqlite3.connect("banco-users.db") as conexao:
@@ -366,14 +380,15 @@ def removerFigurinhas():
 @app.route('/getMarkedStickres', methods=['POST'])
 def pegarQuantidadeFaltante():
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     
     try:
         with sqlite3.connect("banco-users.db") as conexao:
@@ -394,14 +409,15 @@ def pegarQuantidadeFaltante():
 @app.route('/getDuplicate', methods=['GET'])
 def pegarRepetidas():
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     try: 
         with sqlite3.connect("banco-figurinhas.db") as conexao:
             cursor = conexao.cursor()
@@ -441,14 +457,15 @@ def pegarRepetidas():
 @app.route('/getMissing', methods=['GET'])
 def pegar_Faltantes():
     auth_header = request.headers.get('Authorization')
-    if not auth_header or " " not in auth_header:
-        return jsonify({"mensagem" : "Token expirado!"}), 401
-    try:
-        token = auth_header.split(" ")[1]
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-        user_id = payload['sub']
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError):
-        return jsonify({"mensagem": "Sessão expirada. Faça login novamente."}), 401
+    payload, erro = validar_token(
+        auth_header,
+        mensagem_ausente="Token expirado!",
+        mensagem_expirada="Sessão expirada. Faça login novamente.",
+        mensagem_invalido="Sessão expirada. Faça login novamente."
+    )
+    if erro:
+        return erro
+    user_id = payload['sub']
     try:
         with sqlite3.connect("banco-figurinhas.db") as conexao:
             cursor = conexao.cursor()

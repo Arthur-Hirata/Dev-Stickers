@@ -11,8 +11,5 @@ cursor.execute('''
                figurinhas TEXT       
                )
 ''')
-id= 1
-lista = ""
-cursor.execute("UPDATE users SET figurinhas =?  WHERE id =?", (lista, id,))
 conexao.commit()
 conexao.close()

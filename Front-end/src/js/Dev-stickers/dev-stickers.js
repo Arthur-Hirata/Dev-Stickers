@@ -158,6 +158,8 @@ function getUserStickres(){
         })
     }).then(response => response.json())
     .then(data =>{
+        
+
         if (data.mensagem === "Busca efetudada com sucesso!"){
             const faltantes = data.faltantes
             const marcadas = data.marcadas
@@ -211,6 +213,13 @@ function getUserStickres(){
                 }
                 album.appendChild(li)
             })           
+            if (data.aviso === "Completo"){
+               selecaoNoalbum.style.color="#22C55E"
+
+            }
+            else{
+                selecaoNoalbum.style.color = ""
+            }
         }
     })
 }
@@ -261,6 +270,11 @@ function marcarFigurinha (id, figurinha){
                     novoCard.appendChild(controls);
                     spanDuplicate.textContent = data.qnt
                     
+                    const figNoalbum = document.querySelectorAll(".selecao > .missing").length
+                    
+                    if (figNoalbum == 0){
+                        selecaoCompleta()
+                    }
                 }
             })
 }
@@ -322,7 +336,7 @@ function dminiuirFigurinhas(id,figurinha){
                 const cardFaltante = figurinha.cloneNode(true)
                 figurinha.parentNode.replaceChild(cardFaltante, figurinha)
                 cardFaltante.className = "missing"
-
+                pegarQuantidadeMarcadas();
                 const controls = cardFaltante.querySelector(".controls")
                 if (controls){
                     controls.remove()
@@ -330,6 +344,7 @@ function dminiuirFigurinhas(id,figurinha){
                 cardFaltante.addEventListener("click", function(){
                     marcarFigurinha(cardFaltante.dataset.id, cardFaltante)
                 })
+                selecaoDefault()
 
             }
         })
@@ -445,4 +460,9 @@ function toastShow2(mensagem){
         toast2.style.transform = 'translateX(-50%) translateY(-24px)';
     }, 2500);
 }
-
+function selecaoDefault(){
+    selecaoNoalbum.style.color = ""
+}
+function selecaoCompleta(){
+    selecaoNoalbum.style.color = "#22C55E"
+}
