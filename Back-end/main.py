@@ -132,7 +132,7 @@ def loginUser():
         user_id, user_password, user_name, user_role= result
 
         if check_password_hash(user_password, senha):
-            horas_expiracao = 24 if remember else 1
+            horas_expiracao = 48 if remember else 2
             tempo_expiracao = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=horas_expiracao)
 
             payload={
