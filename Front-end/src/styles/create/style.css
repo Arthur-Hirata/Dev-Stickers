@@ -162,3 +162,24 @@ i{
     border-radius: 12px;
     margin-top: 30px;    
 }
+@media screen and (min-width:300px) and (max-width:600px) {
+    .container-create{
+        width: 370px;
+    }
+    .input-request{
+        font-size: 15px;
+    }
+    .user-action{
+        margin-left: 00px;
+    }
+    input[type="text"],
+    input[type="password"]{
+        width: 300px;
+    }
+    .input-erro{
+        margin-top: 18px;
+    }
+    .modal-card{
+        width: 300px;
+    }
+}

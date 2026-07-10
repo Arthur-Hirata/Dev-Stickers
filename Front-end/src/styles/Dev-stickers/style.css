@@ -20,13 +20,21 @@
     --remove: #EF4444;
     --text: #F9FAFB;
 }
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 html{
-scrollbar-gutter: stable;}
+    scrollbar-gutter: stable;
+}
 body{
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0 16px 40px;
+    margin: 0;
     background-color: var(--bg);
     font-family: Poppins, sans-serif;
     color: var(--text);
@@ -34,7 +42,7 @@ body{
 
 button{
     cursor: pointer;
-    transition: transform;
+    transition: transform 0.2s ease;
     user-select: none;
 }
 button:hover{
@@ -53,6 +61,11 @@ button:hover{
     font-size: 30px;
     font-weight: bolder;
     text-align: center;
+}
+@media (max-width: 900px) {
+    .span-tittle{
+        font-size: 26px;
+    }
 }
 .toast-notification{
     position: fixed;

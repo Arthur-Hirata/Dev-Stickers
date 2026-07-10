@@ -14,15 +14,18 @@
 }
 #trocas{
     margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 .trocas{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 40px;
     margin-top:20px;
     padding: 48px;
     background: linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
-    width: 1000px;
+    width: min(100%, 1000px);
     min-height: 400px;
     border-radius: 24px;
     border: 1px solid rgba(96, 165, 250, 0.25);
@@ -31,6 +34,7 @@
 .container-explicacao-trocas{
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 .container-explicacao-trocas h2{
     margin: 0;
@@ -38,7 +42,7 @@
     font-size: 32px;
     line-height: 1.2;
     color: #f8fafc;
-    width: 450px;    
+    max-width: 100%;    
 }
 .explain-trocas{
     margin: 0;
@@ -48,15 +52,46 @@
     color: #cbd5e1;
     font-weight: 400;
     margin-top: 30px;
-    width: 450px;
+    max-width: 100%;
 }
 .container-trocas{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 200px;
-    gap: 90px;
+    margin-left: 0;
+    gap: 32px;
+    flex: 1;
+}
+
+@media (max-width: 900px) {
+    .trocas{
+        flex-direction: column;
+        align-items: stretch;
+        padding: 32px;
+    }
+    .container-explicacao-trocas h2{
+        font-size: 28px;
+    }
+    .container-trocas{
+        width: 100%;
+        gap: 24px;
+    }
+    .btn-copiar{
+        width: 100%;
+        max-width: 320px;
+    }
+}
+@media (max-width: 600px) {
+    .trocas{
+        padding: 24px 16px;
+    }
+    .container-explicacao-trocas h2{
+        font-size: 24px;
+    }
+    .explain-trocas{
+        font-size: 16px;
+    }
 }
 .trocas-tittle{
     font-size: 20px;

@@ -13,8 +13,9 @@
     --text: #F9FAFB;
 }
 nav{
-    width: 1300px;
-    margin-top: 10px;
+    width: min(100%, 1300px);
+    margin: 10px auto 0;
+    padding: 0 20px;
     height: 80px;
     background-color: var(--card);
     border: none;
@@ -22,29 +23,32 @@ nav{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 #logo-navbar{
     font-size: 30px;
     font-weight: bold;
-    margin-left: 20px;
 }
 .name{
     font-size: 30px;
     font-weight: bold;
-    position: start;
     margin-left: 12px;
 }
 .nav-links{
-    margin-left: 110px;
+    margin-left: auto;
     display: flex;
     flex-direction: row;
-    gap: 80px;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 #links{
     text-decoration: none;
     font-weight: bold;
     font-size: 21px;
-    color:var(--text);
+    color: var(--text);
     transition: transform 0.3ms ease-in-out;
 }
 #links{
@@ -53,14 +57,48 @@ nav{
 #links:hover{
     color: var(--duplicate);
 }
-.login{ 
-    margin-left: 240px;
+.login{
     width: 120px;
-    height: 30px;
+    height: 36px;
     border-radius: 12px;
     background-color: var(--owned-border);
     border: none;
     color: var(--text);
-    font-size: 21px;
+    font-size: 18px;
     font-weight: bold;
 }
+@media (max-width: 900px) {
+    nav{
+        height: auto;
+        align-items: flex-start;
+        padding: 16px;
+    }
+    .nav-links{
+        width: 100%;
+        margin-left: 0;
+        justify-content: space-around;
+        gap: 18px;
+    }
+    .login{
+        width: 100%;
+        max-width: 220px;
+    }
+}
+@media (max-width: 600px) {
+    nav{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+    .name{
+        font-size: 24px;
+        margin-left: 0;
+    }
+    .nav-links{
+        gap: 12px;
+    }
+    #links{
+        font-size: 16px;
+        text-align: center;
+    }
+} 
