@@ -15,10 +15,8 @@ grupo = [
     ('Gana', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Ghana.svg/330px-Flag_of_Ghana.svg.png', 'Grupo L'),
     ('Panamá', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Flag_of_Panama.svg/330px-Flag_of_Panama.svg.png', 'Grupo L')
 ]
-#cursor.executemany("INSERT INTO selecoes (selecao, url_bandeira, grupo) VALUES (?,?,?)", grupo)
-id = "24"
-nome = "C. Marfim"
-cursor.execute("UPDATE selecoes SET selecao =? WHERE id=?", (nome, id,))
+cursor.executemany("INSERT INTO selecoes (selecao, url_bandeira, grupo) VALUES (?,?,?)", grupo)
+
 
 conexao.commit()
 conexao.close()
