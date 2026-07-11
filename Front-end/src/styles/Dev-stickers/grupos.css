@@ -32,12 +32,6 @@
     box-sizing: border-box;
     transition: min-height 0.25s ease, background 0.25s ease;
 }
-@media (max-width: 900px) {
-    #container-album{
-        gap: 20px;
-    }
-}
-
 .grupo-titulo{
     font-size: 20px;
     font-weight: bold;
@@ -71,5 +65,27 @@
 }
 .nome-pais:hover{
     color: var(--duplicate);
+}
+@media screen and (max-width:600px){
+    #container-album{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grupo-container{
+        min-height: 150px;
+        width: 140px;
+    }
+    .grupo-titulo{
+        font-size: 12px;
+        text-align: center;
+    }
+    .pais{
+        font-size: 12px;
+    }
+    .imagem-pais{
+        width: 20px;
+        height: 20px;
+        margin-left: -50px;
+    }
 }
 

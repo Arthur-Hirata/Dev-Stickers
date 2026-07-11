@@ -64,6 +64,34 @@
     flex: 1;
 }
 
+.trocas-tittle{
+    font-size: 20px;
+    font-weight: bolder;
+    text-align: center;
+}
+.fig-repetidas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.fig-faltantes{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-copiar{
+    width: 190px;
+    height: 50px;
+    margin-top: 70px;
+    border: none;
+    border-radius: 50px;
+    background: var(--duplicate);
+    color: var(--text);
+    font-weight: bold;
+    font-size: 17px;
+}
 @media (max-width: 900px) {
     .trocas{
         flex-direction: column;
@@ -92,32 +120,4 @@
     .explain-trocas{
         font-size: 16px;
     }
-}
-.trocas-tittle{
-    font-size: 20px;
-    font-weight: bolder;
-    text-align: center;
-}
-.fig-repetidas{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.fig-faltantes{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.btn-copiar{
-    width: 190px;
-    height: 50px;
-    margin-top: 70px;
-    border: none;
-    border-radius: 50px;
-    background: var(--duplicate);
-    color: var(--text);
-    font-weight: bold;
-    font-size: 17px;
 }

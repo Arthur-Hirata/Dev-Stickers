@@ -151,6 +151,12 @@
     }
     .selecao{
         gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+    .selecao .card,
+    .selecao .missing {
+        max-width: 140px;
+        height: auto;
     }
     .progress-bar{
         height: 40px;
