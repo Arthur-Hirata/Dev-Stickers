@@ -60,7 +60,7 @@ pip install -r requirements.txt
 
 ### Passo 3: Criar os Bancos de Dados
 
-Execute os scripts de criação diretamente da raiz do projeto.
+Execute os scripts de criação dos bancos de dados do projeto.
 
 ```bash
 python Back-end/database-files/criar-users.py
