@@ -1,7 +1,10 @@
+
 # Dev-Stickers
 O **Dev-Stickers** é um álbum digital de figurinhas inspirado na Copa do Mundo. O projeto foi idealizado para consolidar conhecimentos em desenvolvimento Full Stack, aplicando na prática conceitos de persistência de dados e segurança na web.
 
 O principal objetivo técnico deste projeto é implementar autenticação segura utilizando **JWT (JSON Web Tokens)** e aprofundar o domínio no gerenciamento e modelagem de **bancos de dados relacionais**.
+
+<video src="https://github.com/user-attachments/assets/fbb8f8de-f8f4-4289-a736-beb8089388d7" autoplay loop muted playsinline width="100%"></video>
 
 ## 🎯 Funcionalidades 
 
