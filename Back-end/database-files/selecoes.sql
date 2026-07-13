@@ -1,19 +1,17 @@
 ('FWC', 'https://static.vecteezy.com/ti/vetor-gratis/p1/14470974-fifa-logotipo-oficial-simbolo-design-vector-ilustracao-abstrata-gratis-vetor.jpg', 'complementares')
-('Coca-Cola', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVcHNtFOWeel0RsZFicuTIp-fb--Hg4ZZq5xVnFv49IQ&s=10', 'complementares'
-'México', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnm5HLbREuXMvOzMXWobYgHfLFpAi3v1J2b1d4SroLQ&s', 'Grupo A')
+('Coca-Cola', 'https://i.pinimg.com/736x/77/13/cc/7713ccdd91965eef62c3a5839f3b94ff.jpg', 'complementares'
+('México', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnm5HLbREuXMvOzMXWobYgHfLFpAi3v1J2b1d4SroLQ&s', 'Grupo A')
 ('Coreia do Sul', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4kvBDum_l0NSP1v5PX-PHMAaBuUU7e78_ol3kiT1dNg&s=10', 'Grupo A'),
 ('Tchéquia', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIbiPM0QYxuYXw91OPQEkCCZDoBJ9zyUbFZ-HZWHbD7w&s=10', 'Grupo A'),
 ('África do Sul', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYwiMwQuQBHif3h3Jdag1OyRGiVjIFmZkTuCSZ537h3A&s=10', 'Grupo A'),
-
-
-
-
-
-
-
-
-
-
+('Suiça', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Flag_of_Switzerland_%28Pantone%29.svg/250px-Flag_of_Switzerland_%28Pantone%29.svg.png', 'Grupo B'),
+('Canadá', 'https://upload.wikimedia.org/wikipedia/commons/c/cf/Flag_of_Canada.svg', 'Grupo B'),
+('Bósnia', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Flag_of_Bosnia_and_Herzegovina.svg/330px-Flag_of_Bosnia_and_Herzegovina.svg.png', 'Grupo B'),
+('Qatar', 'https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_Qatar.svg', 'Grupo B'),
+('Brasil', 'https://www.gov.br/planalto/pt-br/conheca-a-presidencia/biblioteca-da-pr/simbolos-nacionais/bandeira/bandeiranacionalbrasil_.jpg', 'Grupo C'),
+('Marrocos', 'https://upload.wikimedia.org/wikipedia/commons/2/2c/Flag_of_Morocco.svg', 'Grupo C'),
+('Escócia', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/1280px-Flag_of_Scotland.svg.png', 'Grupo C'),
+('Haiti', 'https://upload.wikimedia.org/wikipedia/commons/5/56/Flag_of_Haiti.svg', 'Grupo C'),
 ('EUA', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSHdahLIrzbzhvZyVTyXhPhCV4RwLJNstRUAyzYZrxrQ&s=10', 'Grupo D'),
 ('Austrália', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToNTzdwA9AmPDHk-jpzgC0OSsU96970oP79RQHPYlo5Q&s=10', 'Grupo D'),
 ('Paraguai', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTi9ZetQK716BabItZGCTofpD2uSXOBq4fheX543KOAjw&s=10', 'Grupo D'),
@@ -26,12 +24,12 @@
 ('Japão', 'https://s4.static.brasilescola.uol.com.br/be/2022/11/bandeira-do-japao.jpg', 'Grupo F'),
 ('Suécia', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxYxKSHSAzn9fW6LBVfGVi_J7uwInVq11XczM6dSF0dw&s', 'Grupo F'),
 ('Tunísia', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL_gvOao89BM-3Y9i864NoJEs3Sgw3PPGEbHs5FgOKqw&s', 'Grupo F'),
-
-
-
-
+('Bélgica', 'https://upload.wikimedia.org/wikipedia/commons/6/65/Flag_of_Belgium.svg', 'Grupo G'),
+('Egito', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/330px-Flag_of_Egypt.svg.png', 'Grupo G'),
+('Irã', 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Flag_of_Iran.svg', 'Grupo G'),
+('Nova Zelândia', 'https://s2.glbimg.com/MWXwpAGc16R1w_cxciioYJ0Fw6Q=/s.glbimg.com/jo/g1/f/original/2015/09/02/bandeira_da_nova_zelandia.jpeg', 'Grupo G'),
 ('Espanha', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVWQe0zdmLO4f4z8nIJjxlZ1vLtCyggP1h-CFGmyxb9A&s=10', 'Grupo H'),
-('Cabo Verde', 'https://upload.wikimedia.org/wikipedia/commons/3/38/Flag_of_Cape_Verde.svg', 'Grupo H'),
+('Cabo Verde', 'https://media.istockphoto.com/id/2027698817/pt/vetorial/cape-verde-or-cabo-verde-waving-flag-blowing-in-the-wind-texture-can-be-used-as-background.jpg?s=612x612&w=0&k=20&c=LY0XW1EvcWRE3Ggmnrxxq4dohVc1W2rbX2o0008PAI0=', 'Grupo H'),
 ('Uruguai', 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Uruguay.svg/330px-Flag_of_Uruguay.svg.png', 'Grupo H'),
 ('Arábia Saudita', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Flag_of_Saudi_Arabia.svg/330px-Flag_of_Saudi_Arabia.svg.png', 'Grupo H'),
 ('França', 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg', 'Grupo I'),
@@ -46,3 +44,7 @@
 ('Portugal', 'https://s1.static.brasilescola.uol.com.br/be/2022/10/bandeira-portugal-2.jpg', 'Grupo K'),
 ('RD Congo', 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Flag_of_the_Democratic_Republic_of_the_Congo.svg', 'Grupo K'),
 ('Uzbequistão', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Flag_of_Uzbekistan.svg/330px-Flag_of_Uzbekistan.svg.png', 'Grupo K'),
+('Inglaterra', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Flag_of_England.svg', 'Grupo L'),
+('Croácia', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Flag_of_Croatia.svg/1280px-Flag_of_Croatia.svg.png', 'Grupo L'),
+('Gana', 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Ghana.svg/330px-Flag_of_Ghana.svg.png', 'Grupo L'),
+('Panamá', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Flag_of_Panama.svg/330px-Flag_of_Panama.svg.png', 'Grupo L')
