@@ -361,11 +361,11 @@ function pegarQuantidadeMarcadas(){
     .then(response => response.json())
     .then(data =>{
         const stickersCount = document.getElementById("stickers-count")
-        stickersCount.innerHTML = `${data.total}/980`
+        stickersCount.innerHTML = `${data.total}/994`
         const barraDeProgresso = document.querySelector(".progress-bar")
         const porcentagemProgresso = document.getElementById("progress-percentage")
 
-        const porcentatem = ((data.total / 980) * 100).toFixed(1)
+        const porcentatem = ((data.total / 994) * 100).toFixed(1)
         barraDeProgresso.style.width = `${porcentatem}%`
         porcentagemProgresso.innerHTML = `${porcentatem}%`
         if ( porcentatem == 100){
